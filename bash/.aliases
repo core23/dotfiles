@@ -1,0 +1,59 @@
+# Easier navigation -------------------------------------------------
+alias ..="cd .."
+alias cd..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ~="cd ~" # `cd` is probably faster to type though
+alias -- -="cd -"
+
+
+# List aliases ------------------------------------------------------
+alias ll='ls -hl'
+alias la='ls -a'
+alias lla='ls -lah'
+
+
+# Misc aliases ------------------------------------------------------
+alias mv='mv -v'
+alias rm='rm -i -v'
+alias cp='cp -v'
+
+
+# Misc -------------------------------------------------------------
+alias f='find . -iname'
+alias ducks='du -cksh * | sort -rn|head -11' # Lists folders and files sizes in the current folder
+alias top='top -o cpu'
+alias systail='tail -f /var/log/system.log'
+alias m='more'
+alias df='df -h'
+alias diskspace='df -P -kHl'
+alias fs="stat -f \"%z bytes\""
+
+
+# Quicklinks --------------------------------------------------------
+alias reload='source ~/.bashrc'
+alias hosts='sudo $EDITOR /etc/hosts'   # yes I occasionally 127.0.0.1 twitter.com ;)
+alias config='for file in ~/.{extra,bash_prompt,exports,aliases,functions}; do; [ -r "$file" ] && subl "$file"; done'
+alias profileme="history | awk '{print \$2}' | awk 'BEGIN{FS=\"|\"}{print \$1}' | sort | uniq -c | sort -n | tail -n 20 | sort -nr"
+alias cleanup="find . -name '*.DS_Store' -type f -ls -delete" # Recursively delete `.DS_Store` files
+
+
+# Network -----------------------------------------------------------
+alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
+alias localip="ipconfig getifaddr en1"
+alias ips="ifconfig -a | perl -nle'/(\d+\.\d+\.\d+\.\d+)/ && print $1'"
+
+
+# Git aliases ------------------------------------------------------
+alias g="git"
+alias checkout="git checkout"
+alias undopush="git push -f origin HEAD^:master"
+alias reset-upstream="git fetch upstream && git reset --hard upstream/master"
+
+
+# Docker aliases ---------------------------------------------------
+alias dm-up="docker-machine start $DOCKER_MACHINE_NAME"
+alias dm-down="docker-machine stop $DOCKER_MACHINE_NAME"
+alias dm-list="docker-machine ls"
+alias ds="docker ps"

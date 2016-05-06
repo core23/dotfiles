@@ -1,0 +1,24 @@
+# GNU core utilities (those that come with OS X are outdated)
+coreutils
+moreutils
+findutils
+gnu-sed --default-names
+
+# generic colouriser  http://kassiopeia.juls.savba.sk/~garabik/software/grc/
+grc
+
+# Install wget with IRI support
+wget --with-iri
+
+# Install more recent versions of some OS X tools
+vim --override-system-vi
+
+# Install other useful binaries
+imagemagick --with-webp
+node
+python
+tree
+ffmpeg --with-libvpx
+
+# alternative shell
+zsh

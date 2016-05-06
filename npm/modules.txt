@@ -1,0 +1,14 @@
+bower:v1
+casperjs:
+cloc:v2
+grunt:v1
+grunt-cli:v1
+gulp:v3
+less:v2
+n:v2
+npm:v3
+npm-check:v5
+phantomjs:
+uglify-js:v2
+uglifycss:
+yo:v1

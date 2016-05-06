@@ -1,0 +1,50 @@
+[alias]
+    a = commit --amend
+	up = pull
+	p = push
+	s = status -s
+	df = diff --color --color-words --abbrev
+	dff = diff --name-only --diff-filter=U
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+	sl = log --pretty=oneline --abbrev-commit
+	rc = rebase --continue
+
+	# Show the diff between the latest commit and the current state
+	d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
+
+[core]
+	excludesfile = ~/.gitignore
+	attributesfile = ~/.gitattributes
+
+[commit]
+    # gpgsign = true
+
+[merge]
+	tool = opendiff
+
+# rewrites of repo paths
+[url "git@github.com:"]
+	insteadOf = "gh:"
+	insteadOf = "git://github.com"
+	pushInsteadOf = "github:"
+	pushInsteadOf = "git://github.com/"
+    pushInsteadOf = "https://github.com/"
+[url "git@gist.github.com:"]
+	insteadOf = "gst:"
+	pushInsteadOf = "gist:"
+	pushInsteadOf = "git://gist.github.com/"
+	pushInsteadOf = "https://gist.github.com/"
+
+[help]
+	autocorrect = 1
+
+[push]
+	default = current
+	followTags = true
+
+[rebase]
+	autosquash = true
+
+# use separate file for username / github token / etc
+[include]
+  path = ~/.gitconfig.local

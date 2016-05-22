@@ -179,14 +179,27 @@ shellswitch () {
 
 
 # Docker
+function docker-init() {
+    docker_running=$(docker-machine ls | grep $DOCKER_MACHINE_NAME)
+    if [[ "$docker_running" != *"Running"* ]]; then
+        echo "Starting docker-machine"
+        docker-machine start $DOCKER_MACHINE_NAME
+    fi
+
+    if [[ `printenv DOCKER_HOST` == "" ]]; then
+        echo "Configure docker shell"
+        eval "$(docker-machine env $DOCKER_MACHINE_NAME)"
+    fi
+}
+
 function docker-clean() {
     docker rmi -f $(docker images -q -a -f dangling=true)
 }
 
 function docker-bash() {
-    docker exec -it $1 bash
+    docker exec -it $1 /bin/sh -c "if [ -e '/bin/bash' ]; then /bin/bash; else /bin/sh; fi"
 }
 
-function composer() {
-    docker run --rm -it -v \$PWD:/usr/src/app -v ~/.composer:/root/.composer -v ~/.ssh:/root/.ssh:ro composer/composer:php5
+docker-build() {
+    docker build -t=$1 .;
 }

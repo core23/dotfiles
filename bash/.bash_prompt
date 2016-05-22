@@ -5,16 +5,6 @@ DEFAULT_USER='gripp'
 DOCKER_MACHINE_NAME='docker-vm'
 
 
-# Init docker
-init_docker() {
-    docker_running=$(docker-machine ls | grep $DOCKER_MACHINE_NAME)
-    if [[ "$docker_running" == *"Running"* ]]; then
-        eval "$(docker-machine env $DOCKER_MACHINE_NAME)"
-    fi
-}
-
-init_docker
-
 # fuck
 eval "$(thefuck --alias)"
 

@@ -8,6 +8,7 @@
     lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
     sl = log --pretty=oneline --abbrev-commit
     rc = rebase --continue
+    f = fetch --all --prune --tags
 
     # Show the diff between the latest commit and the current state
     d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"

@@ -48,8 +48,6 @@ alias ips="ifconfig -a | perl -nle'/(\d+\.\d+\.\d+\.\d+)/ && print $1'"
 # Git aliases ------------------------------------------------------
 alias g="git"
 alias checkout="git checkout"
-alias undopush="git push -f origin HEAD^:master"
-alias reset-upstream="git fetch upstream && git reset --hard upstream/master"
 
 
 # Docker aliases ---------------------------------------------------

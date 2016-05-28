@@ -32,6 +32,9 @@
     # List all new commits
     new = !sh -c 'git log $1@{1}..$1@{0} "$@"'
 
+    # Show all git aliases
+    alias = config --get-regexp alias
+
 [core]
     excludesfile = ~/.gitignore
     attributesfile = ~/.gitattributes

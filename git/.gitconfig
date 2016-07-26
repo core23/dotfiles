@@ -1,5 +1,6 @@
 [alias]
     a = commit --amend
+    b = branch -vv
     up = pull
     p = push
     s = status -s
@@ -23,6 +24,7 @@
     rbu = "!git fetch upstream && git rebase --interactive --autosquash upstream/master"
 
     # Reset the branch to the latest remote master
+    rh = reset --hard
     rso = "!git fetch origin && git reset --hard origin/master"
     rsu = "!git fetch upstream && git reset --hard upstream/master"
 

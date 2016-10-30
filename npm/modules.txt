@@ -12,3 +12,4 @@ phantomjs:
 uglify-js:v2
 uglifycss:
 yo:v1
+yarn:

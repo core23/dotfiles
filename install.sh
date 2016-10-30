@@ -88,6 +88,9 @@ install() {
     echo "Installing git tools"
     echo #
     wget -O - https://raw.github.com/jamiew/git-friendly/master/install.sh | sh - && $0
+
+    # graph-composer
+    wget -O - https://github.com/clue/graph-composer/releases/download/v1.0.0/graph-composer.phar
 }
 
 

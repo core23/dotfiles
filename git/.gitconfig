@@ -1,6 +1,7 @@
 [alias]
     a = commit --amend
     b = branch -vv
+    bd = "!git for-each-ref --format='%(committerdate:iso8601) %(committerdate:relative) %(refname)' --sort -committerdate refs/heads/"
     up = pull
     p = push
     s = status -s

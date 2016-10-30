@@ -61,3 +61,4 @@ alias drmfi='docker rmi $(docker images -a -q)'
 
 alias composer="docker run --rm -it -v \$PWD:/app -v ~/.composer:/root/.composer -v ~/.ssh:/root/.ssh:ro composer/composer:php5"
 alias fix="php-cs-fixer fix -v"
+alias comp-low="composer update --prefer-dist --prefer-lowest"

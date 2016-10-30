@@ -25,6 +25,9 @@ fi
 # You may need to manually set your language environment
 export LANG=de_DE.UTF-8
 
+# Autocomplete
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+
 # Home / End key fix
 bindkey  "^[[H"   beginning-of-line
 bindkey  "^[[F"   end-of-line

@@ -69,6 +69,10 @@ install() {
     echo #
     (cd brew; install.sh)
 
+    echo "Installing gem modules"
+    echo #
+    (cd gem; install.sh)
+
     echo "Installing npm modules"
     echo #
     (cd npm; install.sh)

@@ -51,14 +51,28 @@
 [url "git@github.com:"]
     insteadOf = "gh:"
     insteadOf = "git://github.com"
-    pushInsteadOf = "github:"
-    pushInsteadOf = "git://github.com/"
-    pushInsteadOf = "https://github.com/"
+    insteadOf = "github:"
+    insteadOf = "git://github.com/"
+    insteadOf = "https://github.com/"
 [url "git@gist.github.com:"]
     insteadOf = "gst:"
-    pushInsteadOf = "gist:"
-    pushInsteadOf = "git://gist.github.com/"
-    pushInsteadOf = "https://gist.github.com/"
+    insteadOf = "gist:"
+    insteadOf = "git://gist.github.com/"
+    insteadOf = "https://gist.github.com/"
+    
+[url "git@gitlab.com:"]
+    insteadOf = "gl:"
+    insteadOf = "git://gitlab.com"
+    insteadOf = "gitlab:"
+    insteadOf = "git://gitlab.com/"
+    insteadOf = "https://gitlab.com/"
+    
+[url "git@bitbucket.org:"]
+    insteadOf = "bb:"
+    insteadOf = "git://bitbucket.org"
+    insteadOf = "bitbucket:"
+    insteadOf = "git://bitbucket.org/"
+    insteadOf = "https://bitbucket.org/"
 
 [help]
     autocorrect = 1

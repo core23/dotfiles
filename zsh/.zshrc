@@ -25,5 +25,12 @@ fi
 # You may need to manually set your language environment
 export LANG=de_DE.UTF-8
 
+# Home / End key fix
+bindkey  "^[[H"   beginning-of-line
+bindkey  "^[[F"   end-of-line
+
+# Numpad Enter key fix
+bindkey -s "^[OM" "^M"
+
 # Load default dotfiles
 source ~/.bash_profile

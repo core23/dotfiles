@@ -15,7 +15,7 @@ POWERLINE_HIDE_HOST_NAME="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git symfony2 npm)
+plugins=(git symfony2 npm gulp grunt)
 
 # User configuration
 if [[ -f $ZSH/oh-my-zsh.sh ]]; then

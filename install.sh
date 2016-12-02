@@ -71,6 +71,9 @@ backup() {
 
 
 install() {
+    echo "Installing brew"
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
     echo "Installing brew modules"
     echo #
     (cd brew; install.sh)
@@ -102,7 +105,6 @@ install() {
 symlink() {
     ./create-symlinks.sh
 }
-
 
 backup
 install

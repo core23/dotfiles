@@ -17,9 +17,15 @@ backup() {
 
     mkdir -p $BACKUP_DIR/home
 
-    # modules
-    brew leaves                > $BACKUP_DIR/home/brew-list.txt
-    npm list -g --depth=0      > $BACKUP_DIR/home/npm-g-list.txt
+    # brew
+    if hash brew 2>/dev/null; then
+        brew leaves > $BACKUP_DIR/home/brew-list.txt
+    fi
+
+    # npm
+    if hash npm 2>/dev/null; then
+        npm list -g --depth=0 > $BACKUP_DIR/home/npm-g-list.txt
+    fi
 
     # configs
     declare -a BACKUP_FILES=(

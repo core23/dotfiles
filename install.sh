@@ -83,11 +83,6 @@ install() {
     wget -O ~/.oh-my-zsh/themes/powerline.zsh-theme https://raw.githubusercontent.com/jeremyFreeAgent/oh-my-zsh-powerline-theme/master/powerline.zsh-theme
     git clone git://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
 
-    # the fuck
-    echo "Installing the fuck"
-    echo #
-    wget -O - https://raw.githubusercontent.com/nvbn/thefuck/master/install.sh | sh - && $0
-
     # git tools
     echo "Installing git tools"
     echo #

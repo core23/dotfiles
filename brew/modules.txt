@@ -22,3 +22,6 @@ ffmpeg --with-libvpx
 
 # alternative shell
 zsh
+
+# the fuck, https://github.com/nvbn/thefuck
+thefuck

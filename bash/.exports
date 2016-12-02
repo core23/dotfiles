@@ -5,6 +5,7 @@ export EDITOR='subl'
 # Dev --------------------------------------------------------------
 export MYSQL_BIN='/usr/local/mysql/bin'
 export GEM_HOME=~/.gems
+export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
 
 
 # Docker -----------------------------------------------------------

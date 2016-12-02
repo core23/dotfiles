@@ -14,6 +14,9 @@ while read module || [ -n "$module" ]; do
     brew install ${module}
 done  < "modules.txt"
 
+# Install java
+brew cask install --appdir="~/Applications" java
+
 # Remove outdated versions from the cellar
 brew cleanup
 

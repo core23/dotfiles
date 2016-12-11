@@ -26,6 +26,9 @@ zsh
 # the fuck, https://github.com/nvbn/thefuck
 thefuck
 
+# sonar
+sonar-scanner
+
 # docker sync workaround
 fswatch
 unison

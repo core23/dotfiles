@@ -1,0 +1,138 @@
+#!/bin/bash
+#
+# File:         git-status
+# Author:       Christian Gripp
+# E-Mail:       mail@core23.de
+# Homepage:     https://core23.de
+#
+
+help ()
+{
+        cat <<EOF 1>&2
+Shows git statistics for multiple projects
+
+Usage: git-status.sh [options] [path]
+
+   Options
+      -l expects a minimal new commit count
+      -h help
+
+EOF
+        exit 1
+}
+
+function gitLine {
+    if [ ! -d ".git" ]; then
+        return
+    fi
+
+    NAME=`echo "$1" | tr -d '\/'`
+    BRANCH="master"
+    TAG=""
+    COMMIT_COUNT=0
+    COMMIT_TAG_COUNT=0
+
+    # Detect latest tag
+    if [[ `git tag | wc -l  | xargs` > 0 ]]; then
+        TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
+    fi
+
+    # Check for remote upstream
+    REMOTE="origin"
+    if [[ `git remote | grep upstream` ]]; then
+        REMOTE="upstream"
+    fi
+
+    # Detect latest branch based on last tag
+    if [[ $TAG != '' ]]; then
+        VERSION_PARTS=( ${TAG//./ } )
+        VERSIONS=()
+
+        if [[ ${#VERSION_PARTS[@]} -gt 2 ]]; then
+            VERSIONS+=("${VERSION_PARTS[0]}.${VERSION_PARTS[1]}.x")
+            VERSIONS+=("${VERSION_PARTS[0]}.${VERSION_PARTS[1]}.0")
+            VERSIONS+=("${VERSION_PARTS[0]}.${VERSION_PARTS[1]}")
+        fi
+        if [[ ${#VERSION_PARTS[@]} -gt 1 ]]; then
+            VERSIONS+=("${VERSION_PARTS[0]}.x")
+            VERSIONS+=("${VERSION_PARTS[0]}.0")
+            VERSIONS+=("${VERSION_PARTS[0]}")
+        fi
+
+        for VERSION in ${VERSIONS[@]}; do
+            if [[ `git branch -a --list $REMOTE/$VERSION` ]]; then
+                BRANCH="$VERSION"
+            fi
+        done
+    fi
+
+    COMMIT_COUNT=`git rev-list $REMOTE/$BRANCH --count`
+    if [[ $TAG != '' ]]; then
+        COMMIT_TAG_COUNT=`git rev-list $TAG..$REMOTE/$BRANCH --count`
+    fi
+
+    if [[ $COMMIT_TAG_COUNT -gt $limit ]]; then
+        TOTAL_MODULES=$(($TOTAL_MODULES + 1))
+        TOTAL_COMMITS=$(($TOTAL_COMMITS + $COMMIT_COUNT))
+        TOTAL_CHANGES=$(($TOTAL_CHANGES + $COMMIT_TAG_COUNT))
+
+        printf "$LINE_FORMAT" "$NAME" "$TAG" "$BRANCH" "$COMMIT_COUNT" "$COMMIT_TAG_COUNT"
+    fi
+}
+
+process () {
+    DIVIDER=`printf '%0.1s' "#"{1..85}`
+    HEADER_FORMAT="\n %-40s %10s %10s %10s %10s\n"
+    FOOTER_FORMAT=" %-40s %10s %10s %10d %10d\n"
+    LINE_FORMAT=" %-40s %10s %10s %10d %10d\n"
+
+    TOTAL_MODULES=0
+    TOTAL_COMMITS=0
+    TOTAL_CHANGES=0
+
+    printf "$HEADER_FORMAT" "Bundle" "Version" "Branch" "Commits" "New"
+    echo $DIVIDER
+
+    ###################
+    # Start
+    ###################
+
+    for DIR_NAME in `ls -d */`
+    do
+        cd ${DIR_NAME}
+
+        gitLine $DIR_NAME
+
+        cd ..
+    done
+
+    echo $DIVIDER
+    printf "$FOOTER_FORMAT" "Total" "$TOTAL_MODULES" "" "$TOTAL_COMMITS" "$TOTAL_CHANGES"
+}
+
+hash git &> /dev/null
+if [ $? -eq 1 ]; then
+        echo >&2 "git is required but not found"
+        exit
+fi
+
+
+new=0
+limit=-1
+
+while getopts l:h opt ; do
+        case "$opt" in
+                l) limit="$OPTARG";;
+                h) help;;
+                [?]) help;;
+        esac
+done
+
+shift $((OPTIND-1))
+
+
+if [ ! -z "$1" ]; then
+    cd $1
+fi
+
+process

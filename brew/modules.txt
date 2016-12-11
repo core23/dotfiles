@@ -25,3 +25,8 @@ zsh
 
 # the fuck, https://github.com/nvbn/thefuck
 thefuck
+
+# docker sync workaround
+fswatch
+unison
+rsync

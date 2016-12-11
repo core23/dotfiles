@@ -40,3 +40,6 @@ slop
 typhoeus
 websocket
 yaml-lint
+
+# Docker sync workaround
+docker-sync

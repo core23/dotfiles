@@ -62,8 +62,11 @@ alias drmfi='docker rmi $(docker images -a -q)'
 
 # Docker container -------------------------------------------------
 alias composer="docker run -it --rm -v \$PWD:/app -v ~/.composer:/composer -v $SSH_AUTH_SOCK:/ssh-auth.sock --env SSH_AUTH_SOCK=/ssh-auth.sock composer"
-alias php5="docker run -it --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp php:5.6-cli php"
-alias php7="docker run -it --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp php:7.0-cli php"
-alias php="php7" # default version is php7
+alias php54="docker run -it --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp php:5.4-cli php"
+alias php55="docker run -it --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp php:5.5-cli php"
+alias php56="docker run -it --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp php:5.5-cli php"
+alias php70="docker run -it --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp php:7.0-cli php"
+alias php71="docker run -it --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp php:7.1-cli php"
+alias php="php70" # default version is php7
 
 alias fix="php-cs-fixer fix -v"

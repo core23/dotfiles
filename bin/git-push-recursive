@@ -1,0 +1,90 @@
+#!/bin/bash
+#
+# File:         git-push-recursive
+# Author:       Christian Gripp
+# E-Mail:       mail@core23.de
+# Homepage:     https://core23.de
+#
+
+help() {
+        cat <<EOF 1>&2
+Pushes changes to all remotes for multiple projects
+
+Usage: git-push-recursive [options] [path]
+
+   Options
+      -f forces pushes the changes
+      -h help
+
+EOF
+        exit 1
+}
+
+
+function process-project() {
+    if [ ! -d ".git" ]; then
+        return
+    fi
+
+    NAME=`echo "$1" | tr -d '\.\/'`
+    BRANCH=`git rev-parse --abbrev-ref HEAD`
+
+    echo "$NAME ($BRANCH)"
+    echo "--------------------"
+
+    for REMOTE in `git remote`
+    do
+        if [[ $force == "1" ]]; then
+            echo "Force pushing $REMOTE..."
+            git push $REMOTE $BRANCH --tags -f
+        else
+            echo "Pushing $REMOTE..."
+            git push $REMOTE $BRANCH --tags
+        fi
+        echo #
+    done
+}
+
+
+process() {
+    process-project ${PWD##*/}
+
+    for DIR_NAME in `find . -maxdepth $depth -type d -exec ls -dA "{}" \; | grep -e /`
+    do
+        pushd "${DIR_NAME}" > /dev/null
+
+        process-project $DIR_NAME
+
+        popd > /dev/null
+    done
+}
+
+
+# Check git existence
+hash git &> /dev/null
+if [ $? -eq 1 ]; then
+        echo >&2 "git is required but was not found"
+        exit
+fi
+
+
+depth=1
+force=0
+
+while getopts d:fh opt ; do
+        case "$opt" in
+                d) depth="$OPTARG";;
+                f) force="1";;
+                h) help;;
+                [?]) help;;
+        esac
+done
+
+shift $((OPTIND-1))
+
+
+if [ ! -z "$1" ]; then
+    cd $1
+fi
+
+process

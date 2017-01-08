@@ -1,0 +1,104 @@
+#!/bin/bash
+#
+# File:         git-untagged
+# Author:       Christian Gripp
+# E-Mail:       mail@core23.de
+# Homepage:     https://core23.de
+#
+
+help() {
+        cat <<EOF 1>&2
+Shows untagged commits for multiple projects
+
+Usage: git-untagged [options] [path]
+
+   Options
+      -d depth of the scan
+      -h help
+
+EOF
+        exit 1
+}
+
+
+function process-project() {
+    if [ ! -d ".git" ]; then
+        return
+    fi
+
+    NAME=`echo "$1" | tr -d '\.\/'`
+    TAG=""
+    COMMIT_COUNT=0
+    COMMIT_TAG_COUNT=0
+
+    # Detect latest tag
+    if [[ `git tag | wc -l | xargs` > 0 ]]; then
+        TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
+    fi
+
+    COMMIT_COUNT=`git rev-list HEAD --count`
+
+    if [[ $TAG != '' ]]; then
+        COMMIT_TAG_COUNT=`git rev-list $TAG..HEAD --count`
+    fi
+
+    if [[ $COMMIT_TAG_COUNT > 0 || $verbose == "1" ]]; then
+        echo -n "${NAME}"
+        echo -n " | commits: ${COMMIT_TAG_COUNT}/${COMMIT_COUNT}"
+        if [[ ${TAG} !=  "" ]]; then
+            echo -n " | last tag: ${TAG}"
+        fi
+        echo ""
+        echo "----------------------------------------"
+
+        if [[ ${TAG} !=  "" ]]; then
+            git --no-pager log ${TAG}..HEAD --pretty=oneline --abbrev-commit
+        fi
+
+        echo ""
+    fi
+}
+
+
+process() {
+    process-project ${PWD##*/}
+
+    for DIR_NAME in `find . -maxdepth $depth -type d -exec ls -dA "{}" \; | grep -e /`
+    do
+        pushd "${DIR_NAME}" > /dev/null
+
+        process-project $DIR_NAME
+
+        popd > /dev/null
+    done
+}
+
+
+# Check git existence
+hash git &> /dev/null
+if [ $? -eq 1 ]; then
+        echo >&2 "git is required but was not found"
+        exit
+fi
+
+
+depth=1
+verbose=0
+
+while getopts d:vh opt ; do
+        case "$opt" in
+                d) depth="$OPTARG";;
+                v) verbose="1";;
+                h) help;;
+                [?]) help;;
+        esac
+done
+
+shift $((OPTIND-1))
+
+
+if [ ! -z "$1" ]; then
+    cd $1
+fi
+
+process

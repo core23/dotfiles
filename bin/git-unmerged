@@ -1,0 +1,128 @@
+#!/bin/bash
+#
+# File:         git-unmerged
+# Author:       Christian Gripp
+# E-Mail:       mail@core23.de
+# Homepage:     https://core23.de
+#
+
+help() {
+        cat <<EOF 1>&2
+Shows git compare for multiple projects
+
+Usage: git-unmerged [options] [path]
+
+   Options
+      -v shows all projects
+      -h help
+
+EOF
+        exit 1
+}
+
+
+function process-project() {
+    if [ ! -d ".git" ]; then
+        return
+    fi
+
+    NAME=`echo "$1" | tr -d '\.\/'`
+    REMOTE=""
+    BRANCH="master"
+    TAG=""
+    COMMIT_COUNT=0
+
+    # Detect leading remote
+    for R in `git remote | head -1` "origin" "upstream"; do
+        if [[ `git remote | grep $R` && `git branch -r | grep "$R/"` ]]; then
+            REMOTE=$R
+        fi
+    done
+
+    # Detect latest tag
+    if [[ `git tag | wc -l | xargs` > 0 ]]; then
+        TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
+    fi
+
+    # Detect latest branch based on last tag
+    if [[ $REMOTE != '' && $TAG != '' ]]; then
+        VERSION_PARTS=( ${TAG//./ } )
+        VERSIONS=()
+
+        if [[ ${#VERSION_PARTS[@]} -gt 2 ]]; then
+            VERSIONS+=("${VERSION_PARTS[0]}.${VERSION_PARTS[1]}.x")
+            VERSIONS+=("${VERSION_PARTS[0]}.${VERSION_PARTS[1]}.0bash")
+            VERSIONS+=("${VERSION_PARTS[0]}.${VERSION_PARTS[1]}")
+        fi
+        if [[ ${#VERSION_PARTS[@]} -gt 1 ]]; then
+            VERSIONS+=("${VERSION_PARTS[0]}.x")
+            VERSIONS+=("${VERSION_PARTS[0]}.0")
+            VERSIONS+=("${VERSION_PARTS[0]}")
+        fi
+
+        for VERSION in ${VERSIONS[@]}; do
+            if [[ `git branch -a --list $REMOTE/$VERSION` ]]; then
+                BRANCH="$VERSION"
+            fi
+        done
+    fi
+
+    if [[ $BRANCH != 'master' ]]; then
+        COMMIT_COUNT=`git rev-list $REMOTE/master..$REMOTE/$BRANCH --count`
+    fi
+
+    if [[ $BRANCH != 'master' && $COMMIT_COUNT -gt 0 ]] || [[ $verbose == "1" ]]; then
+        echo "$NAME - master..$BRANCH ($COMMIT_COUNT)"
+        echo "----------------------------------------"
+        echo #
+    fi
+
+    if [[ $BRANCH != 'master' ]] && [[ $COMMIT_COUNT -gt 0 ]]; then
+        git --no-pager log $REMOTE/master..$REMOTE/$BRANCH --pretty=oneline --abbrev-commit
+        echo #
+    fi
+}
+
+
+process() {
+    process-project ${PWD##*/}
+
+    for DIR_NAME in `find . -maxdepth $depth -type d -exec ls -dA "{}" \; | grep -e /`
+    do
+        pushd "${DIR_NAME}" > /dev/null
+
+        process-project $DIR_NAME
+
+        popd > /dev/null
+    done
+}
+
+
+# Check git existence
+hash git &> /dev/null
+if [ $? -eq 1 ]; then
+        echo >&2 "git is required but was not found"
+        exit
+fi
+
+
+depth=1
+verbose=0
+
+while getopts d:vh opt ; do
+        case "$opt" in
+                d) depth="$OPTARG";;
+                v) verbose="1";;
+                h) help;;
+                [?]) help;;
+        esac
+done
+
+shift $((OPTIND-1))
+
+
+if [ ! -z "$1" ]; then
+    cd $1
+fi
+
+process

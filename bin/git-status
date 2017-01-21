@@ -31,6 +31,7 @@ function process-project() {
     REMOTE=""
     BRANCH="master"
     TAG=""
+    TAG_DATE=""
     COMMIT_COUNT=0
     COMMIT_TAG_COUNT=0
     COMMIT_LOCAL_COUNT=0
@@ -45,6 +46,10 @@ function process-project() {
     # Detect latest tag
     if [[ `git tag | wc -l | xargs` > 0 ]]; then
         TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
+    fi
+
+    if [[ $TAG != '' ]]; then
+        TAG_DATE=$(git log -1 --format=%ad $TAG --date=short)
     fi
 
     # Detect latest branch based on last tag
@@ -89,23 +94,23 @@ function process-project() {
         TOTAL_CHANGES=$(($TOTAL_CHANGES + $COMMIT_TAG_COUNT))
         TOTAL_LOCAL=$(($TOTAL_LOCAL + $COMMIT_LOCAL_COUNT))
 
-        printf "$LINE_FORMAT" "$NAME" "$TAG" "$BRANCH" "$COMMIT_COUNT" "$COMMIT_TAG_COUNT" "$COMMIT_LOCAL_COUNT"
+        printf "$LINE_FORMAT" "$NAME" "$TAG_DATE" "$TAG" "$BRANCH" "$COMMIT_COUNT" "$COMMIT_TAG_COUNT" "$COMMIT_LOCAL_COUNT"
     fi
 }
 
 
 process() {
-    DIVIDER=`printf '%0.1s' "#"{1..97}`
-    HEADER_FORMAT="\n %-40s %10s %10s %10s %10s %10s\n"
-    FOOTER_FORMAT=" %-40s %10s %10s %10d %10d %10d\n"
-    LINE_FORMAT=" %-40s %10s %10s %10d %10d %10d\n"
+    DIVIDER=`printf '%0.1s' "#"{1..109}`
+    HEADER_FORMAT="\n %-40s %10s %10s %10s %10s %10s %10s\n"
+    FOOTER_FORMAT=" %-40s %10s %10s %10s %10d %10d %10d\n"
+    LINE_FORMAT=" %-40s %10s %10s %10s %10d %10d %10d\n"
 
     TOTAL_MODULES=0
     TOTAL_COMMITS=0
     TOTAL_CHANGES=0
     TOTAL_LOCAL=0
 
-    printf "$HEADER_FORMAT" "Bundle" "Version" "Branch" "Commits" "Untagged" "Local"
+    printf "$HEADER_FORMAT" "Bundle" "Date" "Version" "Branch" "Commits" "Untagged" "Local"
     echo $DIVIDER
 
     process-project ${PWD##*/}
@@ -120,7 +125,7 @@ process() {
     done
 
     echo $DIVIDER
-    printf "$FOOTER_FORMAT" "Total" "$TOTAL_MODULES" "" "$TOTAL_COMMITS" "$TOTAL_CHANGES" "$TOTAL_LOCAL"
+    printf "$FOOTER_FORMAT" "Total" "" "" "$TOTAL_MODULES" "$TOTAL_COMMITS" "$TOTAL_CHANGES" "$TOTAL_LOCAL"
 }
 
 

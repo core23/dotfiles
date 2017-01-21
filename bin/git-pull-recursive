@@ -1,0 +1,75 @@
+#!/bin/bash
+#
+# File:         git-pull-recursive
+# Author:       Christian Gripp
+# E-Mail:       mail@core23.de
+# Homepage:     https://core23.de
+#
+
+help () {
+        cat <<EOF 1>&2
+Pulls changes to from remotes for multiple projects
+
+Usage: git-pull-recursive [options] [path]
+
+   Options
+      -h help
+
+EOF
+        exit 1
+}
+
+
+function process-project() {
+    if [ ! -d ".git" ]; then
+        return
+    fi
+
+    NAME=`echo "$1" | tr -d '\.\/'`
+    BRANCH=`git rev-parse --abbrev-ref HEAD`
+
+    echo "$NAME ($BRANCH)"
+    echo "--------------------"
+
+    echo "Pulling ..."
+    git pull
+    echo #
+}
+
+
+process() {
+    process-project ${PWD##*/}
+
+    for DIR_NAME in `find . -maxdepth 2 -type d -exec ls -dA "{}" \; | grep -e /`
+    do
+        pushd "${DIR_NAME}" > /dev/null
+
+        process-project $DIR_NAME
+
+        popd > /dev/null
+    done
+}
+
+
+# Check git existence
+hash git &> /dev/null
+if [ $? -eq 1 ]; then
+        echo >&2 "git is required but was not found"
+        exit
+fi
+
+
+while getopts h opt ; do
+        case "$opt" in
+                h) help;;
+                [?]) help;;
+        esac
+done
+
+shift $((OPTIND-1))
+
+if [ ! -z "$1" ]; then
+    cd $1
+fi
+
+process

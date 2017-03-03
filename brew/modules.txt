@@ -29,6 +29,9 @@ thefuck
 # sonar
 sonar-scanner
 
+# docker for mac tcp proxy
+socat
+
 # docker sync workaround
 fswatch
 unison

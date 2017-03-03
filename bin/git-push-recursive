@@ -40,6 +40,14 @@ function process-project() {
         else
             echo "Pushing $REMOTE..."
             git push $REMOTE $BRANCH --tags
+
+            if [[ $? -ne 0 && $silent == "0" ]]; then
+                read -p "Push rejected? Try force push?" -n 1 -r
+                echo #
+                if [[ $REPLY =~ ^[Yy]$ ]]; then
+                    git push $REMOTE $BRANCH --tags -f
+                fi
+            fi
         fi
         echo #
     done
@@ -70,11 +78,13 @@ fi
 
 depth=1
 force=0
+silent=0
 
-while getopts d:fh opt ; do
+while getopts d:fhs opt ; do
         case "$opt" in
                 d) depth="$OPTARG";;
                 f) force="1";;
+                s) silent="1";;
                 h) help;;
                 [?]) help;;
         esac

@@ -40,7 +40,7 @@ function process-project() {
 process() {
     process-project ${PWD##*/}
 
-    for DIR_NAME in `find . -maxdepth 2 -type d -exec ls -dA "{}" \; | grep -e /`
+    for DIR_NAME in `find . -maxdepth $depth -type d -exec ls -dA "{}" \; | grep -e /`
     do
         pushd "${DIR_NAME}" > /dev/null
 
@@ -58,9 +58,11 @@ if [ $? -eq 1 ]; then
         exit
 fi
 
+depth=1
 
-while getopts h opt ; do
+while getopts d:h opt ; do
         case "$opt" in
+                d) depth="$OPTARG";;
                 h) help;;
                 [?]) help;;
         esac

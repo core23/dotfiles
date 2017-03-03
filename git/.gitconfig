@@ -12,6 +12,7 @@
     sl = log --pretty=oneline --abbrev-commit
     ra = rebase --abort
     rc = rebase --continue
+    rb = rebase --interactive
     f = fetch --all --prune --tags
 
     # Show the diff between the latest commit and the current state

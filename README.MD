@@ -11,7 +11,7 @@
 When running the install script, your current configuration will be stored in ``~/migration``.
 
 ## Configuration
-You can add new modules to npm and brew in the ``modules.txt`` files.
+You can add new modules to brew in the ``modules.txt`` files.
 
 ## Notes
 Keep your private git information in ``.gitconfig.local``

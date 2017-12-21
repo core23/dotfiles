@@ -25,10 +25,6 @@ install() {
     echo #
     (cd gem; install.sh)
 
-    echo "Installing npm modules"
-    echo #
-    (cd npm; install.sh)
-
     # oh-my-zsh
     echo "oh-my-zsh"
     wget -O - https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh - && $0

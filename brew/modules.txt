@@ -31,6 +31,7 @@ sonar-scanner
 
 # docker for mac tcp proxy
 socat
+ctop
 
 # docker sync workaround
 fswatch

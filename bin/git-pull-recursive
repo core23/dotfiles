@@ -31,6 +31,9 @@ function process-project() {
     echo "$NAME ($BRANCH)"
     echo "--------------------"
 
+    echo "Fetching ..."
+    git fetch --all
+
     echo "Pulling ..."
     git pull
     echo #

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 docker build --no-cache -t core23/composer                  composer
+docker build --no-cache -t core23/composer-require-checker  composer-require-checker
 docker build --no-cache -t core23/dephpend                  dephpend
 docker build --no-cache -t core23/node                      node
 docker build --no-cache -t core23/php-cs-fixer              php-cs-fixer

@@ -38,8 +38,8 @@ function process-project() {
 
     # Detect leading remote
     for R in `git remote | head -1` "origin" "upstream"; do
-        if [[ `git remote | grep $R` && `git branch -r | grep "$R/"` ]]; then
-            REMOTE=$R
+        if [[ `git remote | grep ${R}` && `git branch -r | grep "$R/"` ]]; then
+            REMOTE=${R}
         fi
     done
 
@@ -48,12 +48,12 @@ function process-project() {
         TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
     fi
 
-    if [[ $TAG != '' ]]; then
-        TAG_DATE=$(git log -1 --format=%ad $TAG --date=short)
+    if [[ ${TAG} != '' ]]; then
+        TAG_DATE=$(git log -1 --format=%ad ${TAG} --date=short)
     fi
 
     # Detect latest branch based on last tag
-    if [[ $REMOTE != '' && $TAG != '' ]]; then
+    if [[ ${REMOTE} != '' && ${TAG} != '' ]]; then
         VERSION_PARTS=( ${TAG//./ } )
         VERSIONS=()
 
@@ -69,26 +69,26 @@ function process-project() {
         fi
 
         for VERSION in ${VERSIONS[@]}; do
-            if [[ `git branch -a --list $REMOTE/$VERSION` ]]; then
+            if [[ `git branch -a --list ${REMOTE}/${VERSION}` ]]; then
                 BRANCH="$VERSION"
             fi
         done
     fi
 
-    if [[ $REMOTE != '' && $BRANCH != '' ]]; then
-        COMMIT_COUNT=`git rev-list $REMOTE/$BRANCH --count`
+    if [[ ${REMOTE} != '' && ${BRANCH} != '' ]]; then
+        COMMIT_COUNT=`git rev-list ${REMOTE}/${BRANCH} --count`
     fi
 
-    if [[ $REMOTE != '' && $TAG != '' ]]; then
-        COMMIT_TAG_COUNT=`git rev-list $TAG..$REMOTE/$BRANCH --count`
+    if [[ ${REMOTE} != '' && ${TAG} != '' ]]; then
+        COMMIT_TAG_COUNT=`git rev-list ${TAG}..${REMOTE}/${BRANCH} --count`
     fi
 
-    if [[ $COMMIT_COUNT -gt 0 ]]; then
+    if [[ ${COMMIT_COUNT} -gt 0 ]]; then
         COMMIT_LOCAL_COUNT=`git log --branches --not --remotes --oneline | wc -l`
     fi
 
     # Totals
-    if [[ $COMMIT_TAG_COUNT -gt $limit ]]; then
+    if [[ ${COMMIT_TAG_COUNT} -gt ${limit} ]]; then
         TOTAL_MODULES=$(($TOTAL_MODULES + 1))
         TOTAL_COMMITS=$(($TOTAL_COMMITS + $COMMIT_COUNT))
         TOTAL_CHANGES=$(($TOTAL_CHANGES + $COMMIT_TAG_COUNT))
@@ -111,20 +111,20 @@ process() {
     TOTAL_LOCAL=0
 
     printf "$HEADER_FORMAT" "Bundle" "Date" "Version" "Branch" "Commits" "Untagged" "Local"
-    echo $DIVIDER
+    echo ${DIVIDER}
 
     process-project ${PWD##*/}
 
-    for DIR_NAME in `find . -maxdepth $depth -type d -exec ls -dA "{}" \; | grep -e /`
+    for DIR_NAME in `find . -maxdepth ${depth} -type d -exec ls -dA "{}" \; | grep -e / | sort`
     do
         pushd "${DIR_NAME}" > /dev/null
 
-        process-project $DIR_NAME
+        process-project ${DIR_NAME}
 
         popd > /dev/null
     done
 
-    echo $DIVIDER
+    echo ${DIVIDER}
     printf "$FOOTER_FORMAT" "Total" "" "" "$TOTAL_MODULES" "$TOTAL_COMMITS" "$TOTAL_CHANGES" "$TOTAL_LOCAL"
 }
 

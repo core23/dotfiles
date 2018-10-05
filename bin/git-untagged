@@ -38,11 +38,11 @@ function process-project() {
 
     COMMIT_COUNT=`git rev-list HEAD --count`
 
-    if [[ $TAG != '' ]]; then
-        COMMIT_TAG_COUNT=`git rev-list $TAG..HEAD --count`
+    if [[ ${TAG} != '' ]]; then
+        COMMIT_TAG_COUNT=`git rev-list ${TAG}..HEAD --count`
     fi
 
-    if [[ $COMMIT_TAG_COUNT > 0 || $verbose == "1" ]]; then
+    if [[ ${COMMIT_TAG_COUNT} > 0 || ${verbose} == "1" ]]; then
         echo -n "${NAME}"
         echo -n " | commits: ${COMMIT_TAG_COUNT}/${COMMIT_COUNT}"
         if [[ ${TAG} !=  "" ]]; then
@@ -63,11 +63,11 @@ function process-project() {
 process() {
     process-project ${PWD##*/}
 
-    for DIR_NAME in `find . -maxdepth $depth -type d -exec ls -dA "{}" \; | grep -e /`
+    for DIR_NAME in `find . -maxdepth ${depth} -type d -exec ls -dA "{}" \; | grep -e / | sort`
     do
         pushd "${DIR_NAME}" > /dev/null
 
-        process-project $DIR_NAME
+        process-project ${DIR_NAME}
 
         popd > /dev/null
     done

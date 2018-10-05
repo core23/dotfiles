@@ -34,18 +34,18 @@ function process-project() {
 
     for REMOTE in `git remote`
     do
-        if [[ $force == "1" ]]; then
+        if [[ ${force} == "1" ]]; then
             echo "Force pushing $REMOTE..."
-            git push $REMOTE $BRANCH --tags -f
+            git push ${REMOTE} ${BRANCH} --tags -f
         else
             echo "Pushing $REMOTE..."
-            git push $REMOTE $BRANCH --tags
+            git push ${REMOTE} ${BRANCH} --tags
 
-            if [[ $? -ne 0 && $silent == "0" ]]; then
+            if [[ $? -ne 0 && ${silent} == "0" ]]; then
                 read -p "Push rejected? Try force push?" -n 1 -r
                 echo #
                 if [[ $REPLY =~ ^[Yy]$ ]]; then
-                    git push $REMOTE $BRANCH --tags -f
+                    git push ${REMOTE} ${BRANCH} --tags -f
                 fi
             fi
         fi
@@ -57,11 +57,11 @@ function process-project() {
 process() {
     process-project ${PWD##*/}
 
-    for DIR_NAME in `find . -maxdepth $depth -type d -exec ls -dA "{}" \; | grep -e /`
+    for DIR_NAME in `find . -maxdepth ${depth} -type d -exec ls -dA "{}" \; | grep -e / | sort`
     do
         pushd "${DIR_NAME}" > /dev/null
 
-        process-project $DIR_NAME
+        process-project ${DIR_NAME}
 
         popd > /dev/null
     done

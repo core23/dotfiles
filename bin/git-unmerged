@@ -87,7 +87,7 @@ function process-project() {
 process() {
     process-project ${PWD##*/}
 
-    for DIR_NAME in `find . -maxdepth $depth -type d -exec ls -dA "{}" \; | grep -e /`
+    for DIR_NAME in `find . -maxdepth $depth -type d -exec ls -dA "{}" \; | grep -e / | sort`
     do
         pushd "${DIR_NAME}" > /dev/null
 

@@ -15,7 +15,7 @@ POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs time)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git symfony2 npm gulp grunt)
+plugins=(git)
 
 # User configuration
 if [[ -f $ZSH/oh-my-zsh.sh ]]; then

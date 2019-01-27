@@ -23,6 +23,9 @@ ffmpeg --with-libvpx
 # alternative shell
 zsh
 
+# bat, alternative cat
+bat
+
 # sonar
 sonar-scanner
 

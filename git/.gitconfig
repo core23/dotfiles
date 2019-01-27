@@ -45,7 +45,7 @@
     attributesfile = ~/.gitattributes
 
 [commit]
-    # gpgsign = true
+    gpgsign = true
 
 [merge]
     tool = opendiff

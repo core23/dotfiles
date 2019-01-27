@@ -82,3 +82,7 @@ alias phpunit6="docker run -it --rm -v \$PWD:/app -v $SSH_AUTH_SOCK:/ssh-auth.so
 alias phpunit7="docker run -it --rm -v \$PWD:/app -v $SSH_AUTH_SOCK:/ssh-auth.sock --env SSH_AUTH_SOCK=/ssh-auth.sock core23/phpunit7"
 alias rmt="docker run -it --rm -v \$PWD:/app -v ~/.gitconfig:/root/.gitconfig -v ~/.gitconfig.local:/root/.gitconfig.local -v $SSH_AUTH_SOCK:/ssh-auth.sock --env SSH_AUTH_SOCK=/ssh-auth.sock core23/rmt"
 alias fix="php-cs-fixer fix -v"
+
+
+# System aliases ---------------------------------------------------
+alias update-all="brew update && brew upgrade && gem update && gem update --system && npm update -g && make -C .. all"

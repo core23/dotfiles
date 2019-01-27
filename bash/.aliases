@@ -58,6 +58,7 @@ alias ds="docker ps"
 alias di="docker images"
 alias drmf='docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)'
 alias drmfi='docker rmi $(docker images -a -q)'
+alias dslogs='docker-sync logs -f'
 
 
 # Docker container -------------------------------------------------

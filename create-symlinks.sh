@@ -149,7 +149,6 @@ declare -a FILES_TO_SYMLINK=(
     "bash/.bash_prompt"
     "bash/.bashrc"
     "bash/.exports"
-    "bash/.extra"
     "bash/.functions"
 
     "git/.gitattributes"

@@ -1,2 +1,3 @@
 bin/graph-composer.phar
+bash/.extra
 git/.gitignore.local

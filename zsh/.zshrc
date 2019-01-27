@@ -28,8 +28,9 @@ fi
 # You may need to manually set your language environment
 export LANG=de_DE.UTF-8
 
-# Autocomplete
+# Addons
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Home / End key fix
 bindkey  "^[[H"   beginning-of-line

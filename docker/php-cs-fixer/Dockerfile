@@ -3,7 +3,7 @@ FROM core23/composer
 MAINTAINER Christian Gripp <mail@core23.de>
 
 # Get needed requirements
-RUN /usr/local/bin/composer global require friendsofphp/php-cs-fixer sllh/php-cs-fixer-styleci-bridge
+RUN /usr/local/bin/composer global require friendsofphp/php-cs-fixer kubawerlos/php-cs-fixer-custom-fixers
 
 VOLUME ["/app"]
 WORKDIR /app

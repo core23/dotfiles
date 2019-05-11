@@ -10,6 +10,9 @@ composer:
 composer-require-checker:
 	docker build --no-cache -t core23/composer-require-checker  docker/composer-require-checker
 
+deptrac:
+	docker build --no-cache -t core23/deptrac                   docker/deptrac
+
 dephpend:
 	docker build --no-cache -t core23/dephpend                  docker/dephpend
 

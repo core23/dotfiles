@@ -1,6 +1,8 @@
 # working files*~
 .idea
 .php_cs.cache
+.deptrac.cache
+
 
 # Folder view configuration files
 .DS_Store

@@ -62,6 +62,7 @@ alias dslogs='docker-sync logs -f'
 
 
 # Docker container -------------------------------------------------
+alias dc="docker-compose"
 alias php54="docker run -it --rm -v \$PWD:/usr/src/myapp -w /usr/src/myapp php:5.4-cli php"
 alias php55="docker run -it --rm -v \$PWD:/usr/src/myapp -w /usr/src/myapp php:5.5-cli php"
 alias php56="docker run -it --rm -v \$PWD:/usr/src/myapp -w /usr/src/myapp php:5.5-cli php"
@@ -71,16 +72,17 @@ alias php72="docker run -it --rm -v \$PWD:/usr/src/myapp -w /usr/src/myapp php:7
 alias php73="docker run -it --rm -v \$PWD:/usr/src/myapp -w /usr/src/myapp php:7.3-cli php"
 alias php="php73" # default version is PHP 7.3
 
-alias composer="docker run -it --rm -v \$PWD:/app -v ~/.composer:/composer -v $SSH_AUTH_SOCK:/ssh-auth.sock --env SSH_AUTH_SOCK=/ssh-auth.sock core23/composer"
 alias composer-require-checker="docker run -it --rm -v \$PWD:/app -v $SSH_AUTH_SOCK:/ssh-auth.sock --env SSH_AUTH_SOCK=/ssh-auth.sock core23/composer-require-checker"
 alias dephpend="docker run -it --rm -v \$PWD:/app -v $SSH_AUTH_SOCK:/ssh-auth.sock --env SSH_AUTH_SOCK=/ssh-auth.sock core23/dephpend"
+alias deptrac="docker run -it --rm -v \$PWD:/app -v $SSH_AUTH_SOCK:/ssh-auth.sock --env SSH_AUTH_SOCK=/ssh-auth.sock core23/deptrac"
 alias phpdoc-to-typehint="docker run -it --rm -v \$PWD:/app -v $SSH_AUTH_SOCK:/ssh-auth.sock --env SSH_AUTH_SOCK=/ssh-auth.sock core23/phpdoc-to-typehint"
 alias php-cs-fixer="docker run -it --rm -v \$PWD:/app -v $SSH_AUTH_SOCK:/ssh-auth.sock --env SSH_AUTH_SOCK=/ssh-auth.sock core23/php-cs-fixer"
 alias phpstan="docker run -it --rm -v \$PWD:/app -v $SSH_AUTH_SOCK:/ssh-auth.sock --env SSH_AUTH_SOCK=/ssh-auth.sock core23/phpstan"
 alias phpunit5="docker run -it --rm -v \$PWD:/app -v $SSH_AUTH_SOCK:/ssh-auth.sock --env SSH_AUTH_SOCK=/ssh-auth.sock core23/phpunit5"
 alias phpunit6="docker run -it --rm -v \$PWD:/app -v $SSH_AUTH_SOCK:/ssh-auth.sock --env SSH_AUTH_SOCK=/ssh-auth.sock core23/phpunit6"
 alias phpunit7="docker run -it --rm -v \$PWD:/app -v $SSH_AUTH_SOCK:/ssh-auth.sock --env SSH_AUTH_SOCK=/ssh-auth.sock core23/phpunit7"
-alias rmt="docker run -it --rm -v \$PWD:/app -v ~/.gitconfig:/root/.gitconfig -v ~/.gitconfig.local:/root/.gitconfig.local -v $SSH_AUTH_SOCK:/ssh-auth.sock --env SSH_AUTH_SOCK=/ssh-auth.sock core23/rmt"
+alias phpunit8="docker run -it --rm -v \$PWD:/app -v $SSH_AUTH_SOCK:/ssh-auth.sock --env SSH_AUTH_SOCK=/ssh-auth.sock core23/phpunit8"
+alias rmt="docker run -it --rm -v \$PWD:/app -v ~/.gitconfig:/root/.gitconfig -v ~/.gitconfig.local:/root/.gitconfig.local -v $SSH_AUTH_SOCK:/ssh-auth.sock  -v ~/.gnupg/:/root/.gnupg/ --env SSH_AUTH_SOCK=/ssh-auth.sock core23/rmt"
 alias fix="php-cs-fixer fix -v"
 
 

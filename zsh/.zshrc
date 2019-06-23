@@ -1,6 +1,3 @@
-DISABLE_UPDATE_PROMPT=true
-DISABLE_AUTO_UPDATE=true
-
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
 

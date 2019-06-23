@@ -1,0 +1,206 @@
+#!/bin/bash
+set -eu
+
+#
+# File:         outdated-tools
+# Author:       Christian Gripp
+# E-Mail:       mail@core23.de
+# Homepage:     https://core23.de
+#
+
+help() {
+  cat <<EOF 1>&2
+Show information for installed tools
+
+Usage: $(basename "$0") [options] [path]
+
+   Options
+      -u Update all tools
+      -o Show outdated versions
+      -h help
+
+EOF
+  exit 1
+}
+
+heading() {
+  echo -e "\033[0;32m"
+  echo "+--------------------"
+  echo "| $1"
+  echo "+--------------------"
+  echo -e "\033[0m"
+}
+
+outdated_brew() {
+  if [[ $(command -v brew) ]]; then
+    heading "Outdated: Brew Tools"
+
+    brew update
+    brew outdated
+    brew cask outdated
+
+    echo
+  fi
+}
+
+outdated_ruby() {
+  if [[ $(command -v gem) ]]; then
+    heading "Outdated: Ruby Gems"
+
+    gem outdated
+
+    echo
+  fi
+}
+
+outdated_php() {
+  if [[ $(command -v composer) ]]; then
+    heading "Outdated: PHP Tools"
+
+    composer global outdated -D
+
+    echo
+  fi
+}
+
+outdated_npm() {
+  if [[ $(command -v npm) ]]; then
+    heading "Outdated: Node modules"
+
+    # TODO: Add check
+
+    echo
+  fi
+}
+
+outdated_all() {
+  outdated_brew
+  outdated_ruby
+  outdated_php
+  outdated_npm
+}
+
+update_brew() {
+  if [[ $(command -v brew) ]]; then
+    heading "Updating: Brew Tools"
+
+    brew update
+    brew upgrade
+    # brew cask upgrade
+
+    echo
+  fi
+}
+
+update_ruby() {
+  if [[ $(command -v gem) ]]; then
+    heading "Updating: Ruby Gems"
+
+    gem update --system
+    gem update
+
+    echo
+  fi
+}
+
+update_php() {
+  if [[ $(command -v composer) ]]; then
+    heading "Updating: PHP Tools"
+
+    composer global update
+
+    echo
+  fi
+}
+
+update_npm() {
+  if [[ $(command -v npm) ]]; then
+    heading "Updating: Node modules"
+
+    sudo npm cache clean -f
+    sudo npm install -g n
+    sudo n stable
+    npm update -g
+
+    echo
+  fi
+}
+
+update_all() {
+  update_brew
+  update_ruby
+  update_php
+  update_npm
+}
+
+list_brew() {
+  if [[ $(command -v brew) ]]; then
+    heading "Brew Tools"
+
+    brew --version
+    brew list --versions
+
+    echo
+  fi
+}
+
+list_ruby() {
+  if [[ $(command -v gem) ]]; then
+    heading "Ruby Gems"
+
+    ruby --version
+    echo "gem ($(gem --version))"
+    gem query --local
+
+    echo
+  fi
+}
+
+list_php() {
+  if [[ $(command -v composer) ]]; then
+    heading "PHP Tools"
+
+    composer global show -D
+
+    echo
+  fi
+}
+
+list_npm() {
+  if [[ $(command -v npm) ]]; then
+    heading "Node modules"
+
+    npm list -g --depth=0
+
+    echo
+  fi
+}
+
+list_all() {
+  list_brew
+  list_ruby
+  list_php
+  list_npm
+}
+
+update=0
+outdated=0
+
+while getopts uho opt; do
+  case "$opt" in
+  u) update=1 ;;
+  o) outdated=1 ;;
+  h) help ;;
+  [?]) help ;;
+  esac
+done
+
+shift $((OPTIND - 1))
+
+if [[ "$update" == "1" ]]; then
+  update_all
+elif [[ "$outdated" == "1" ]]; then
+  outdated_all
+else
+  list_all
+fi

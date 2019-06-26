@@ -2,23 +2,26 @@
 set -eu
 
 #
-# File:         outdated-tools
+# File:         tools
 # Author:       Christian Gripp
 # E-Mail:       mail@core23.de
 # Homepage:     https://core23.de
 #
 
+SUPPORTED_TOOLS="apt brew ruby php python"
+
 help() {
   cat <<EOF 1>&2
 Show information for installed tools
-
-Usage: $(basename "$0") [options] [path]
-
+Usage: $(basename "$0") [options] [tool ..]
    Options
+      -f Fetch new version information
       -u Update all tools
       -o Show outdated versions
       -h help
 
+   Supported tools:
+      ${SUPPORTED_TOOLS}
 EOF
   exit 1
 }
@@ -31,165 +34,158 @@ heading() {
   echo -e "\033[0m"
 }
 
-outdated_brew() {
-  if [[ $(command -v brew) ]]; then
-    heading "Outdated: Brew Tools"
+function_exists() {
+    declare -f -F $1 > /dev/null
+    return $?
+}
 
-    brew update
-    brew outdated
-    brew cask outdated
+tool_apt() {
+  local cmd=$1
+  local fetch=$2
 
-    echo
+  if [[ ! $(command -v apt) ]]; then
+      return
   fi
-}
 
-outdated_ruby() {
-  if [[ $(command -v gem) ]]; then
-    heading "Outdated: Ruby Gems"
+  heading "APT"
 
-    gem outdated
-
-    echo
+  if [[ "${fetch}"  ]]; then
+    timeout 30 apt update
   fi
-}
 
-outdated_php() {
-  if [[ $(command -v composer) ]]; then
-    heading "Outdated: PHP Tools"
-
-    composer global outdated -D
-
-    echo
+  if [[ "${cmd}" == "update" ]]; then
+    apt upgrade
+  elif [[ "${cmd}" == "outdated" ]]; then
+    apt list --upgradable
+  elif [[ "${cmd}" == "list" ]]; then
+    apt list --installed
   fi
+
+  echo
 }
 
-outdated_npm() {
-  if [[ $(command -v npm) ]]; then
-    heading "Outdated: Node modules"
+tool_brew() {
+  local cmd=$1
+  local fetch=$2
 
-    # TODO: Add check
-
-    echo
+  if [[ ! $(command -v brew) ]]; then
+      return
   fi
-}
 
-outdated_all() {
-  outdated_brew
-  outdated_ruby
-  outdated_php
-  outdated_npm
-}
+  heading "Brew Tools"
 
-update_brew() {
-  if [[ $(command -v brew) ]]; then
-    heading "Updating: Brew Tools"
+  if [[ "${fetch}"  ]]; then
+    timeout 30 brew update
+  fi
 
-    brew update
+  if [[ "${cmd}" == "update" ]]; then
     brew upgrade
     # brew cask upgrade
-
-    echo
+  elif [[ "${cmd}" == "outdated" ]]; then
+    brew outdated
+    brew cask outdated
+  elif [[ "${cmd}" == "list" ]]; then
+    brew --version
+    brew list --versions
   fi
+
+  echo 
 }
 
-update_ruby() {
-  if [[ $(command -v gem) ]]; then
-    heading "Updating: Ruby Gems"
+tool_npm() {
+  local cmd=$1
 
-    gem update --system
-    gem update
-
-    echo
+  if [[ ! $(command -v npm) ]]; then
+      return
   fi
-}
 
-update_php() {
-  if [[ $(command -v composer) ]]; then
-    heading "Updating: PHP Tools"
+  heading "Node modules"
 
-    composer global update
-
-    echo
-  fi
-}
-
-update_npm() {
-  if [[ $(command -v npm) ]]; then
-    heading "Updating: Node modules"
-
+  if [[ "${cmd}" == "update" ]]; then
     sudo npm cache clean -f
     sudo npm install -g n
     sudo n stable
     npm update -g
-
-    echo
+  elif [[ "${cmd}" == "outdated" ]]; then
+    echo "Not yet supported"
+  elif [[ "${cmd}" == "list" ]]; then
+    npm list -g --depth=0
   fi
+
+  echo
 }
 
-update_all() {
-  update_brew
-  update_ruby
-  update_php
-  update_npm
-}
+tool_php() {
+  local cmd=$1
 
-list_brew() {
-  if [[ $(command -v brew) ]]; then
-    heading "Brew Tools"
-
-    brew --version
-    brew list --versions
-
-    echo
+  if [[ ! $(command -v php) || ! $(command -v composer) ]]; then
+      return
   fi
+
+  heading "PHP modules"
+
+  if [[ "${cmd}" == "update" ]]; then
+    composer global update || true
+  elif [[ "${cmd}" == "outdated" ]]; then
+    composer global outdated -D || true
+  elif [[ "${cmd}" == "list" ]]; then
+    composer global show -D || true
+  fi
+
+  echo
 }
 
-list_ruby() {
-  if [[ $(command -v gem) ]]; then
-    heading "Ruby Gems"
+tool_python() {
+  local cmd=$1
 
+  if [[ ! $(command -v pip) ]]; then
+      return
+  fi
+
+  heading "Python modules"
+
+  if [[ "${cmd}" == "update" ]]; then
+    pip install --upgrade
+  elif [[ "${cmd}" == "outdated" ]]; then
+    pip list --outdated
+  elif [[ "${cmd}" == "list" ]]; then
+    pip list
+  fi
+
+  echo
+}
+
+tool_ruby() {
+  local cmd=$1
+
+  if [[ ! $(command -v gem) ]]; then
+      return
+  fi
+
+  heading "Ruby gems"
+
+  if [[ "${cmd}" == "update" ]]; then
+    gem update --system
+    gem update
+  elif [[ "${cmd}" == "outdated" ]]; then
+    gem outdated
+  elif [[ "${cmd}" == "list" ]]; then
     ruby --version
     echo "gem ($(gem --version))"
     gem query --local
-
-    echo
   fi
+
+  echo
 }
 
-list_php() {
-  if [[ $(command -v composer) ]]; then
-    heading "PHP Tools"
+cmd="list"
+fetch=""
 
-    composer global show -D
-
-    echo
-  fi
-}
-
-list_npm() {
-  if [[ $(command -v npm) ]]; then
-    heading "Node modules"
-
-    npm list -g --depth=0
-
-    echo
-  fi
-}
-
-list_all() {
-  list_brew
-  list_ruby
-  list_php
-  list_npm
-}
-
-update=0
-outdated=0
-
-while getopts uho opt; do
+while getopts fuoh opt; do
   case "$opt" in
-  u) update=1 ;;
-  o) outdated=1 ;;
+  f) fetch="1" ;;
+  u) cmd="update" ;;
+  o) cmd="outdated" ;;
   h) help ;;
   [?]) help ;;
   esac
@@ -197,10 +193,26 @@ done
 
 shift $((OPTIND - 1))
 
-if [[ "$update" == "1" ]]; then
-  update_all
-elif [[ "$outdated" == "1" ]]; then
-  outdated_all
-else
-  list_all
+
+if [[ "${cmd}" == "update" ]]; then
+  echo "Updating tools"
+elif [[ "${cmd}" == "outdated" ]]; then
+  echo "Showing outdated version"
 fi
+
+tools=$@
+
+if [[ -z "${tools}" ]]; then
+  tools="${SUPPORTED_TOOLS}"
+fi
+
+for tool in $tools; do
+  func_name="tool_$tool"
+
+  if type "${func_name}" &>/dev/null; then
+    ${func_name} "${cmd}" "${fetch}"
+  else
+    echo "Tool $tool is not yet supported"
+    exit 1
+  fi
+done

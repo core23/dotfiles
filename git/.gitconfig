@@ -49,7 +49,7 @@
 	autocrlf = input
 
 [commit]
-    # gpgsign = true
+    gpgsign = true
 
 [merge]
     tool = opendiff

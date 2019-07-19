@@ -2,29 +2,32 @@
     a = commit --amend
     b = branch -vv
     bd = "!git for-each-ref --format='%(committerdate:iso8601) %(committerdate:relative) %(refname)' --sort -committerdate refs/heads/"
+    chk = checkout -b
     up = pull
     p = push
+    fp = push --force-with-lease
     pa = "!git remote | xargs -L1 git push --all"
     s = status -s
     df = diff --color --color-words --abbrev
     dff = diff --name-only --diff-filter=U
     lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
     sl = log --pretty=oneline --abbrev-commit
-    ra = rebase --abort
-    rc = rebase --continue
-    rb = rebase --interactive
     f = fetch --all --prune --tags
 
     # Show the diff between the latest commit and the current state
     d = "!git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
 
     # Clean all branches that are merged into remote master
-    clo = "!git branch --merged origin/master | grep -v '\\*' | grep -v master | xargs -n 1 git branch -d"
-    clu = "!git branch --merged upstream/master | grep -v '\\*' | grep -v master | xargs -n 1 git branch -d"
+    cln-origin = "!git branch --merged origin/master | grep -v '\\*' | grep -v master | xargs -n 1 git branch -d"
+    cln-upstream = "!git branch --merged upstream/master | grep -v '\\*' | grep -v master | xargs -n 1 git branch -d"
 
-    # Rebase the current branch to the latest remote master
+    # Rebase 
     rbo = "!git fetch origin && git rebase --interactive --autosquash origin/master"
     rbu = "!git fetch upstream && git rebase --interactive --autosquash upstream/master"
+    rb-fix = rebase --interactive $1 --exec "php-cs-fixer fix"
+    ra = rebase --abort
+    rc = rebase --continue
+    rb = rebase --interactive
 
     # Reset the branch to the latest remote master
     rh = reset --hard
@@ -43,9 +46,10 @@
 [core]
     excludesfile = ~/.gitignore
     attributesfile = ~/.gitattributes
+	autocrlf = input
 
 [commit]
-    gpgsign = true
+    # gpgsign = true
 
 [merge]
     tool = opendiff
@@ -89,6 +93,11 @@
 
 [rebase]
     autosquash = true
+    abbreviateCommands = true
+    instructionFormat = "[%an @ %ar] %s"
+
+[rerere]
+    enabled = true
 
 # use separate file for username / github token / etc
 [include]

@@ -127,9 +127,9 @@ tool_php() {
   if [[ "${cmd}" == "update" ]]; then
     composer global update || true
   elif [[ "${cmd}" == "outdated" ]]; then
-    composer global outdated -D || true
+    composer global outdated -D 2>/dev/null || true
   elif [[ "${cmd}" == "list" ]]; then
-    composer global show -D || true
+    composer global show -D 2>/dev/null  || true
   fi
 
   echo
@@ -142,14 +142,14 @@ tool_python() {
       return
   fi
 
-  heading "Python modules"
+  heading "Python packages"
 
   if [[ "${cmd}" == "update" ]]; then
-    pip install --upgrade
+    pip install --upgrade  
   elif [[ "${cmd}" == "outdated" ]]; then
-    pip list --outdated
+    pip list --outdated 2>/dev/null    
   elif [[ "${cmd}" == "list" ]]; then
-    pip list
+    pip list 2>/dev/null    
   fi
 
   echo

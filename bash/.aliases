@@ -49,6 +49,10 @@ alias ips="ifconfig -a | perl -nle'/(\d+\.\d+\.\d+\.\d+)/ && print $1'"
 alias g="git"
 alias checkout="git checkout"
 
+# Maven aliases ----------------------------------------------------
+alias mb="mvn clean install -T1.0C"
+alias mfb="mb -DskipTests=true $@"
+
 
 # Docker aliases ---------------------------------------------------
 alias dm-up="docker-machine start $DOCKER_MACHINE_NAME"

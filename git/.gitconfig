@@ -13,6 +13,8 @@
     lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
     sl = log --pretty=oneline --abbrev-commit
     f = fetch --all --prune --tags
+    bat = "!sh -c 'find . -name .git -type d -prune -exec git --git-dir={} --work-tree=$PWD/{} --no-pager $1 \\;' -"
+    batv = "!sh -c 'find . -name .git -type d -prune -exec dirname {} \\; -exec git --git-dir={} --work-tree=$PWD/{} --no-pager $1 \\; -exec echo \\; ' -"
 
     # Show the diff between the latest commit and the current state
     d = "!git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"

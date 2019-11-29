@@ -17,4 +17,6 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 
 ENV PATH /root/.composer/vendor/bin:$PATH
 
+WORKDIR /app
+
 ENTRYPOINT ["composer"]

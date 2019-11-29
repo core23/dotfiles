@@ -74,6 +74,7 @@ alias php74="docker run -it --rm -v \$PWD:/usr/src/myapp -w /usr/src/myapp php:7
 alias php="php74"
 
 alias composer-require-checker="docker run -it --rm -v \$PWD:/app -v $SSH_AUTH_SOCK:/ssh-auth.sock --env SSH_AUTH_SOCK=/ssh-auth.sock core23/composer-require-checker"
+alias c="composer"
 alias dephpend="docker run -it --rm -v \$PWD:/app -v $SSH_AUTH_SOCK:/ssh-auth.sock --env SSH_AUTH_SOCK=/ssh-auth.sock core23/dephpend"
 alias deptrac="docker run -it --rm -v \$PWD:/app -v $SSH_AUTH_SOCK:/ssh-auth.sock --env SSH_AUTH_SOCK=/ssh-auth.sock core23/deptrac"
 alias phpdoc-to-typehint="docker run -it --rm -v \$PWD:/app -v $SSH_AUTH_SOCK:/ssh-auth.sock --env SSH_AUTH_SOCK=/ssh-auth.sock core23/phpdoc-to-typehint"

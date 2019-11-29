@@ -22,9 +22,6 @@ node:
 php-cs-fixer:
 	docker build --no-cache -t core23/php-cs-fixer              docker/php-cs-fixer
 
-phpdoc-to-typehint:
-	docker build --no-cache -t core23/phpdoc-to-typehint        docker/phpdoc-to-typehint
-
 phpstan:
 	docker build --no-cache -t core23/phpstan                   docker/phpstan
 

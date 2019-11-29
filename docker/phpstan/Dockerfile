@@ -11,8 +11,4 @@ RUN /usr/local/bin/composer global require \
     localheinz/phpstan-rules \
     phpstan/phpstan-strict-rules
 
-
-VOLUME ["/app"]
-WORKDIR /app
-
 ENTRYPOINT ["phpstan"]

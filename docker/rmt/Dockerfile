@@ -7,7 +7,4 @@ RUN /usr/local/bin/composer global require --no-update liip/rmt && \
     /usr/local/bin/composer global require --no-update phpunit/phpunit ^7.0 && \
     /usr/local/bin/composer global update
 
-VOLUME ["/app"]
-WORKDIR /app
-
 ENTRYPOINT ["RMT"]

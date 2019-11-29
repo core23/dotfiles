@@ -25,7 +25,4 @@ RUN  apk add --update --virtual build_deps gcc g++ autoconf make \
 # Get needed requirements
 RUN /usr/local/bin/composer global require phpunit/phpunit ^${VERSION}
 
-VOLUME ["/app"]
-WORKDIR /app
-
 ENTRYPOINT ["phpunit"]

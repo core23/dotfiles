@@ -2,7 +2,7 @@
 list:
 	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$' | xargs
 
-all: composer composer-require-checker dephpend node php-cs-fixer php-cs-fixer phpdoc-to-typehint phpstan phpunit5 phpunit6 phpunit7 phpunit8 rector rmt
+all: composer composer-require-checker dephpend node php-cs-fixer php-cs-fixer phpstan phpunit5 phpunit6 phpunit7 phpunit8 rector rmt
 
 composer:
 	docker build --no-cache -t local/composer                  docker/composer

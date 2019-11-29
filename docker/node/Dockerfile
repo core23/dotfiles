@@ -1,23 +1,13 @@
-FROM node
+FROM node:alpine
 
 MAINTAINER Christian Gripp <mail@core23.de>
 
-# yarn
-RUN curl -o- -L https://yarnpkg.com/install.sh | bash
+# Tools
+RUN apk add yarn
 
-# Sass
-RUN apt-get update -qq && apt-get install -y \
-    build-essential \
-    ruby \
-    ruby-dev
-
-# Compass
-RUN gem install \
-    sass:3.4.22 \
-    compass
-
-# Gulp
-RUN yarn global add gulp-cli
+# Yarn
+RUN yarn global add -g sass \ 
+	gulp-cli
 
 # Directory for sources
 WORKDIR /src

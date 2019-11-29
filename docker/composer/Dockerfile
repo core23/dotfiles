@@ -13,6 +13,8 @@ RUN apk add --update \
 # Get Composer
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 
+ENV COMPOSER_ALLOW_SUPERUSER 1
+
 ENV PATH /composer/vendor/bin:$PATH
 
 ENTRYPOINT ["composer"]

@@ -8,7 +8,7 @@ set -eu
 # Homepage:     https://core23.de
 #
 
-SUPPORTED_TOOLS="apt brew ruby php python"
+SUPPORTED_TOOLS="apt brew docker ruby php python"
 
 help() {
   cat <<EOF 1>&2
@@ -87,6 +87,26 @@ tool_brew() {
   elif [[ "${cmd}" == "list" ]]; then
     brew --version
     brew list --versions
+  fi
+
+  echo 
+}
+
+
+tool_docker() {
+  local cmd=$1
+  local fetch=$2
+
+  if [[ ! $(command -v docker) ]]; then
+      return
+  fi
+
+  heading "Docker Images"
+
+  if [[ "${cmd}" == "update" ]]; then
+    docker images --format "{{.Repository}}:{{.Tag}}" | xargs -L1 docker pull;
+  elif [[ "${cmd}" == "list" ]]; then
+    docker images --format "{{.Repository}}:{{.Tag}}"
   fi
 
   echo 

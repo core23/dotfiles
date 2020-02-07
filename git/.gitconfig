@@ -11,6 +11,7 @@
     df = diff --color --color-words --abbrev
     dff = diff --name-only --diff-filter=U
     lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+    tlg = "!git log $(git describe --tags --abbrev=0)..HEAD --oneline"
     sl = log --pretty=oneline --abbrev-commit
     f = fetch --all --prune --tags
     bat = "!sh -c 'find . -name .git -type d -prune -exec git --git-dir={} --work-tree=$PWD/{} --no-pager $@ \\;' -"
@@ -26,7 +27,7 @@
     # Rebase 
     rbo = "!git fetch origin && git rebase --interactive --autosquash origin/master"
     rbu = "!git fetch upstream && git rebase --interactive --autosquash upstream/master"
-    rb-fix = rebase --interactive $1 --exec "php-cs-fixer fix"
+    rb-fix = !sh -c 'git rebase --interactive "$1" --exec "php-cs-fixer fix"'
     ra = rebase --abort
     rc = rebase --continue
     rb = rebase --interactive

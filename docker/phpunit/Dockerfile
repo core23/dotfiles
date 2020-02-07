@@ -23,6 +23,6 @@ RUN  apk add --update --virtual build_deps gcc g++ autoconf make \
   && rm -rf /tmp/*
 
 # Get needed requirements
-RUN /usr/local/bin/composer global require phpunit/phpunit ^${VERSION}
+RUN /usr/local/bin/composer global require phpunit/phpunit:^${VERSION} symfony/phpunit-bridge
 
 ENTRYPOINT ["phpunit"]

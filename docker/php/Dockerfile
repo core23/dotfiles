@@ -1,4 +1,6 @@
-FROM local/php74
+ARG VERSION=7.4
+
+FROM php:${VERSION}-cli-alpine
 
 MAINTAINER Christian Gripp <mail@core23.de>
 
@@ -12,13 +14,4 @@ RUN apk add --update \
 
 RUN echo "memory_limit=-1" > $PHP_INI_DIR/conf.d/memory-limit.ini
 
-# Get Composer
-COPY --from=composer /usr/bin/composer /usr/local/bin/composer
-
-ENV COMPOSER_ALLOW_SUPERUSER 1
-
-ENV PATH /root/.composer/vendor/bin:$PATH
-
 WORKDIR /app
-
-ENTRYPOINT ["composer"]

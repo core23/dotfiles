@@ -2,7 +2,7 @@ FROM local/composer
 
 MAINTAINER Christian Gripp <mail@core23.de>
 
-ARG VERSION=8.0
+ARG VERSION=9
 ARG XDEBUG_PORT=9021
 
 RUN  apk add --update --virtual build_deps gcc g++ autoconf make \

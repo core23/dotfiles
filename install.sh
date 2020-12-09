@@ -40,9 +40,6 @@ install() {
     echo "Symfony CLI"
     echo #
     wget -O - https://get.symfony.com/cli/installer | bash
-
-    # graph-composer
-    wget -O - https://github.com/clue/graph-composer/releases/download/v1.0.0/graph-composer.phar
 }
 
 

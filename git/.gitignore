@@ -21,3 +21,7 @@ Thumbs.db
 
 # Local notes directory
 .notes/
+
+# Local logs
+npm-debug.log
+yarn-error.log

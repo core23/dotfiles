@@ -2,7 +2,6 @@
 # but customized to me. <3
 
 DEFAULT_USER='gripp'
-DOCKER_MACHINE_NAME='docker-vm'
 
 
 if [[ -n "$ZSH_VERSION" ]]; then  # quit now if in zsh

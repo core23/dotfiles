@@ -53,38 +53,3 @@ alias checkout="git checkout"
 # Maven aliases ----------------------------------------------------
 alias mb="mvn clean install -T1.0C"
 alias mfb="mb -DskipTests=true $@"
-
-
-# Docker aliases ---------------------------------------------------
-alias dm-up="docker-machine start $DOCKER_MACHINE_NAME"
-alias dm-down="docker-machine stop $DOCKER_MACHINE_NAME"
-alias dm-list="docker-machine ls"
-alias ds="docker ps"
-alias di="docker images"
-alias drmf='docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)'
-alias drmfi='docker rmi $(docker images -a -q)'
-alias dslogs='docker-sync logs -f'
-
-
-# Docker container -------------------------------------------------
-alias dc="docker-compose"
-alias php72="docker run --init -it --rm -v \$PWD:/app -w /app local/php72 php"
-alias php73="docker run --init -it --rm -v \$PWD:/app -w /app local/php73 php"
-alias php74="docker run --init -it --rm -v \$PWD:/app -w /app local/php74 php"
-alias php="php74"
-alias pc="php composer"
-
-alias composer-require-checker="docker run --init -it --rm -v \$PWD:/app -v $SSH_AUTH_SOCK:/ssh-auth.sock --env SSH_AUTH_SOCK=/ssh-auth.sock local/composer-require-checker"
-alias c="composer"
-alias dephpend="docker run --init -it --rm -v \$PWD:/app -v $SSH_AUTH_SOCK:/ssh-auth.sock --env SSH_AUTH_SOCK=/ssh-auth.sock local/dephpend"
-alias deptrac="docker run --init -it --rm -v \$PWD:/app -v $SSH_AUTH_SOCK:/ssh-auth.sock --env SSH_AUTH_SOCK=/ssh-auth.sock local/deptrac"
-alias infection="docker run --init -it --rm -v \$PWD:/app -v $SSH_AUTH_SOCK:/ssh-auth.sock --env SSH_AUTH_SOCK=/ssh-auth.sock local/infection"
-alias php-cs-fixer="docker run --init -it --rm -v \$PWD:/app -v $SSH_AUTH_SOCK:/ssh-auth.sock --env SSH_AUTH_SOCK=/ssh-auth.sock local/php-cs-fixer"
-alias phpstan="docker run --init -it --rm -v \$PWD:/app -v $SSH_AUTH_SOCK:/ssh-auth.sock --env SSH_AUTH_SOCK=/ssh-auth.sock local/phpstan"
-alias phpunit6="docker run --init -it --rm -v \$PWD:/app -v $SSH_AUTH_SOCK:/ssh-auth.sock --env SSH_AUTH_SOCK=/ssh-auth.sock local/phpunit6"
-alias phpunit7="docker run --init -it --rm -v \$PWD:/app -v $SSH_AUTH_SOCK:/ssh-auth.sock --env SSH_AUTH_SOCK=/ssh-auth.sock local/phpunit7"
-alias phpunit8="docker run --init -it --rm -v \$PWD:/app -v $SSH_AUTH_SOCK:/ssh-auth.sock --env SSH_AUTH_SOCK=/ssh-auth.sock local/phpunit8"
-alias phpunit9="docker run --init -it --rm -v \$PWD:/app -v $SSH_AUTH_SOCK:/ssh-auth.sock --env SSH_AUTH_SOCK=/ssh-auth.sock local/phpunit9"
-alias rmt="docker run --init -it --rm -v \$PWD:/app -v ~/.gitconfig:/root/.gitconfig -v ~/.gitconfig.local:/root/.gitconfig.local -v $SSH_AUTH_SOCK:/ssh-auth.sock  -v ~/.gnupg/:/root/.gnupg/ --env SSH_AUTH_SOCK=/ssh-auth.sock local/rmt"
-alias rector="docker run --init -it --rm -v \$PWD:/app -v $SSH_AUTH_SOCK:/ssh-auth.sock --env SSH_AUTH_SOCK=/ssh-auth.sock local/rector"
-alias fix="php-cs-fixer fix -v"

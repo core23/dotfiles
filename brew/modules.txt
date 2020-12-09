@@ -2,23 +2,18 @@
 coreutils
 moreutils
 findutils
-gnu-sed --default-names
 
 # generic colouriser  http://kassiopeia.juls.savba.sk/~garabik/software/grc/
 grc
 
-# Install wget with IRI support
-wget --with-iri
-
-# Install more recent versions of some OS X tools
-vim --override-system-vi
+# Install wget
+wget
 
 # Install other useful binaries
-imagemagick --with-webp
+imagemagick
 node
 python
 tree
-ffmpeg --with-libvpx
 
 # alternative shell
 zsh
@@ -26,14 +21,5 @@ zsh
 # bat, alternative cat
 bat
 
-# sonar
-sonar-scanner
-
-# docker for mac tcp proxy
-socat
-ctop
-
-# docker sync workaround
-fswatch
-unison
-rsync
+# help
+tldr

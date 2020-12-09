@@ -10,7 +10,10 @@ while read module || [ -n "$module" ]; do
     [[ ${module} =~ ^# ]] && continue
     [[ ${module} =~ ^\s*$ ]] && continue
 
+    echo
     echo "Downloading ${module}"
+    echo
+
     brew install ${module}
 done  < "modules.txt"
 

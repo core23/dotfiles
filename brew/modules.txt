@@ -23,3 +23,6 @@ bat
 
 # help
 tldr
+
+# git
+hub

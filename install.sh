@@ -40,6 +40,9 @@ install() {
     echo "Symfony CLI"
     echo #
     wget -O - https://get.symfony.com/cli/installer | bash
+
+    # Rich Enhanced Shell History
+    wget -O - https://raw.githubusercontent.com/curusarn/resh/master/scripts/rawinstall.sh | bash
 }
 
 

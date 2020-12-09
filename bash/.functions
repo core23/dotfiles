@@ -187,6 +187,6 @@ m () {
 }
 
 lint() {
-    find ./src -name '*.yml' -name '*.yaml' -not -path '*/vendor/*' | xargs yaml-lint
+    find ./ -name '*.yml' -name '*.yaml' -not -path '*/vendor/*' | xargs yaml-lint
     find . \( -name '*.xml' -or -name '*.xml.dist' -or -name '*.xlf' \) -not -path '*/vendor/*' -not -path '*/node_modules/*' -not -path '*/.*' -type f -exec xmllint --encode UTF-8 --output '{}' --format '{}' \;
 }

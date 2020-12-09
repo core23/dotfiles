@@ -29,7 +29,8 @@ function process-project() {
 
     NAME=`echo "$1" | tr -d '\.\/'`
     REMOTE=""
-    BRANCH="master"
+    BRANCH=""
+    FALLBACK_BRANCH="master"
     TAG=""
     TAG_DATE=""
     COMMIT_COUNT=0
@@ -73,6 +74,18 @@ function process-project() {
                 BRANCH="$VERSION"
             fi
         done
+    fi
+
+    if [[ -z ${BRANCH} ]]; then
+    	if [[ `git branch -a | egrep '${REMOTE}/main'` ]]; then
+    		BRANCH="main"
+    	elif [[ `git branch -a | egrep '${REMOTE}/master'` ]]; then
+    		BRANCH="master"
+    	fi
+    fi
+
+    if [[ -z ${BRANCH} ]]; then
+    	return
     fi
 
     if [[ ${REMOTE} != '' && ${BRANCH} != '' ]]; then

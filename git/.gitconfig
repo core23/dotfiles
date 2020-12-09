@@ -24,7 +24,7 @@
     cln-origin = "!git branch --merged origin/master | grep -v '\\*' | grep -v master | xargs -n 1 git branch -d"
     cln-upstream = "!git branch --merged upstream/master | grep -v '\\*' | grep -v master | xargs -n 1 git branch -d"
 
-    # Rebase 
+    # Rebase
     rbo = "!git fetch origin && git rebase --interactive --autosquash origin/master"
     rbu = "!git fetch upstream && git rebase --interactive --autosquash upstream/master"
     rb-fix = !sh -c 'git rebase --interactive "$1" --exec "php-cs-fixer fix"'
@@ -69,14 +69,14 @@
     insteadOf = "gist:"
     insteadOf = "git://gist.github.com/"
     insteadOf = "https://gist.github.com/"
-    
+
 [url "git@gitlab.com:"]
     insteadOf = "gl:"
     insteadOf = "git://gitlab.com"
     insteadOf = "gitlab:"
     insteadOf = "git://gitlab.com/"
     insteadOf = "https://gitlab.com/"
-    
+
 [url "git@bitbucket.org:"]
     insteadOf = "bb:"
     insteadOf = "git://bitbucket.org"

@@ -100,7 +100,6 @@
 [rebase]
     autoStash = true
     autosquash = true
-    abbreviateCommands = true
     instructionFormat = "[%an @ %ar] %s"
 
 [rerere]

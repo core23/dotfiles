@@ -177,6 +177,14 @@ shellswitch () {
     chsh -s $(brew --prefix)/bin/$1
 }
 
+m () {
+	if [[ -f .notes/Makefile ]]
+	then
+		make -f .notes/Makefile $@
+	else
+		make $@
+	fi
+}
 
 lint() {
     find ./src -name '*.yml' -name '*.yaml' -not -path '*/vendor/*' | xargs yaml-lint

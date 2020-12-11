@@ -1,3 +1,4 @@
-bin/graph-composer.phar
 bash/.extra
+phive/tools
+phive/phive.phar.asc
 git/.gitignore.local

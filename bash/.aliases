@@ -52,3 +52,8 @@ alias checkout="git checkout"
 # Maven aliases ----------------------------------------------------
 alias mb="mvn clean install -T1.0C"
 alias mfb="mb -DskipTests=true $@"
+
+
+# PHP aliases ------------------------------------------------------
+alias c="composer"
+alias fix="php-cs-fixer fix"

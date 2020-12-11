@@ -25,6 +25,10 @@ install() {
     echo #
     (cd gem; install.sh)
 
+    echo "Installing phive modules"
+    echo #
+    (cd phive; install.sh)
+
     # oh-my-zsh
     echo "oh-my-zsh"
     wget -O - https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh - && $0

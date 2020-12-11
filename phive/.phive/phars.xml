@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phive xmlns="https://phar.io/phive">
+  <phar name="phpunit" version="^9.5.0" installed="9.5.0" location="./tools/phpunit" copy="false"/>
+  <phar name="infection" version="^0.20.1" installed="0.20.1" location="./tools/infection" copy="false"/>
+  <phar name="psalm" version="^4.3.1" installed="4.3.1" location="./tools/psalm" copy="false"/>
+  <phar name="phpstan" version="^0.12.59" installed="0.12.59" location="./tools/phpstan" copy="false"/>
+  <phar name="phpmd" version="^2.9.1" installed="2.9.1" location="./tools/phpmd" copy="false"/>
+  <phar name="php-cs-fixer" version="^2.17.1" installed="2.17.1" location="./tools/php-cs-fixer" copy="false"/>
+  <phar name="composer" version="^2.0.8" installed="2.0.8" location="./tools/composer" copy="false"/>
+</phive>
